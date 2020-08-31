@@ -1,0 +1,36 @@
+; labels
+al  $810 .EndBlock466
+al  $813 .RS232_RS232_BYTE_IN
+al  $814 .RS232_KEYBOARD_BYTE_IN
+al  $815 .RS232_RS232_input_buffer
+al  $915 .RS232_RS232_output_buffer
+al  $a15 .title
+al  $a2d .SetScreenPosition
+al  $a37 .syloop
+al  $a3e .sskip
+al  $a41 .sydone
+al  $a4c .sxdone
+al  $a4f .initmoveto_moveto2
+al  $a50 .print_number_text
+al  $a55 .printstring
+al  $a57 .printstringloop
+al  $a64 .printstring_skip
+al  $a6f .printstring_done
+al  $a70 .RS232_Init
+al  $a8d .RS232_b
+al  $a8e .RS232_set_baudrate_block4
+al  $a95 .RS232_read_byte
+al  $aa4 .RS232_write_byte
+al  $ab2 .RS232_read_keyboard
+al  $abc .RS232_read_keyboard_ConditionalTrueBlock9
+al  $abf .RS232_read_keyboard_elsedoneblock11
+al  $ac0 .block1
+al  $ac4 .MainProgram_clearloop14
+al  $af6 .MainProgram_while17
+al  $afc .MainProgram_ConditionalTrueBlock18
+al  $b06 .MainProgram_ConditionalTrueBlock32
+al  $b0c .MainProgram_elseblock33
+al  $b12 .MainProgram_elsedoneblock34
+al  $b15 .MainProgram_elsedoneblock20
+al  $b18 .EndSymbol
+; breakpoints

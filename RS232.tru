@@ -1,0 +1,99 @@
+Unit RS232;
+var  
+   	// -- variables to store results of rs232 and keyboard read -- //
+	RS232_BYTE_IN : byte;
+	KEYBOARD_BYTE_IN : byte;
+	
+	// -- BAUD constants -- //
+	const BAUD_300 	: byte = %00000110;
+	const BAUD_1200 : byte = %00001000;
+	const BAUD_2400 : byte = %00001010;
+
+	// -- Kernal routines -- //   
+	const GETIN  : address = $FFE4; 
+	const CHKIN  : address = $FFC6;
+	const CHKOUT : address = $FFC9;
+	const SETLFS : address = $FFBA;
+	const OPEN   : address = $FFC0;
+	const SETNAM : address = $FFBD;
+	const CHROUT : address = $FFD2;
+	const CLRCHN : address = $FFCC;
+	const BAUDRATE_ADDRESS : address = $0293;
+	
+	// -- Buffer pointers -- //
+	const RS232_INBUF_PTR_LO  : address = $f7;
+	const RS232_INBUF_PTR_HI  : address = $f8;
+	const RS232_OUTBUF_PTR_LO : address = $f9;
+	const RS232_OUTBUF_PTR_HI : address = $fa;
+	
+	// -- buffers -- //
+	RS232_input_buffer : array[256] of byte;
+	RS232_output_buffer : array[256] of byte;
+	
+	// -- forward declarations -- //
+	procedure set_baudrate(b : byte);
+
+// -----------------------------------------------------------------------------//
+// initialize the rs232 port and set up the buffers (for use later)
+// -----------------------------------------------------------------------------//	
+procedure Init();
+begin
+	RS232_INBUF_PTR_LO := lo(RS232_input_buffer);
+	RS232_INBUF_PTR_HI := hi(RS232_input_buffer);
+	RS232_OUTBUF_PTR_LO := lo(RS232_output_buffer);
+	RS232_OUTBUF_PTR_HI := hi(RS232_output_buffer);
+	// -- setup a logical file descriptor, pointing to device 2 (user port) -- //
+	asm("
+		
+    	lda #3                      ; logical file number
+    	ldx #2                      ; 2 = rs-232 device
+    	ldy #0                      ; no extra command
+    	jsr SETLFS
+    	");
+    // -- open the logical file -- //
+	Call(OPEN);
+end;
+// -----------------------------------------------------------------------------//
+// set the baud rate
+// -----------------------------------------------------------------------------//
+procedure set_baudrate(b : byte) ;
+begin
+	BAUDRATE_ADDRESS := b;
+end;
+// -----------------------------------------------------------------------------//
+// attempt to read a byte                                          
+// -----------------------------------------------------------------------------//
+Procedure read_byte();
+begin
+	asm("	ldx #$03"); 				// -- logical file 3 -- //
+	call(CHKIN);     					// -- CHKIN. Define file as default input. (Must call OPEN beforehands.) -- //
+	call(GETIN);						// -- GETIN. Read byte from default input. (If not keyboard, must call OPEN and CHKIN beforehands.) -- //
+	asm("	sta RS232_RS232_BYTE_IN"); 	// -- transfer the result of GETIN to RS232_RS232_BYTE_IN as CLRCHN kills the A register -- //
+	call(CLRCHN);						// -- CLRCHN. Close default input/output files (for serial bus, send UNTALK and/or UNLISTEN); restore default input/output to keyboard/screen. -- //
+end;
+// -----------------------------------------------------------------------------//
+// attempt to write a byte                                          
+// -----------------------------------------------------------------------------//
+Procedure write_byte();
+begin
+	asm("	ldx #$03");					// -- logical file 3 -- //
+	asm("	tay");                      // -- preserve the accumulator as it is changed by CHKOUT -- //
+	call(CHKOUT);                       // -- CHKOUT. Define file as default output. (Must call OPEN beforehands.) -- // 
+	asm("	tya"); 						// -- restore accumulator from Y -- //
+	call(CHROUT);                       // -- CHROUT. Write byte to default output. (If not screen, must call OPEN and CHKOUT beforehands.) -- //
+	call(CLRCHN);						// -- CLRCHN. Close default input/output files (for serial bus, send UNTALK and/or UNLISTEN); restore default input/output to keyboard/screen. -- //
+end;
+// -----------------------------------------------------------------------------//
+// read a byte from the keyboard                                          
+// -----------------------------------------------------------------------------//
+Procedure read_keyboard();
+begin
+	call(GETIN);
+	asm("	sta RS232_KEYBOARD_BYTE_IN");
+	if (KEYBOARD_BYTE_IN <> 0) then
+	begin
+		write_byte();
+	end;
+end;
+
+end.

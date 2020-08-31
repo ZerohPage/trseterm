@@ -1,0 +1,35 @@
+program C64Project;
+@use "RS232"
+var
+	i : byte=0;
+	title : string = "TRSETERM VERSION 0.1";
+begin
+	// -- clear the screen -- //
+	ClearScreen($20, ^$0400);
+	// -- move to position x = 1 y = y in 1st bank $0400 (screen memory)
+	moveto(1,1,$04);
+	// -- print out the title string -- //
+	printstring(title,0,20);
+	// -- Set the baud rate (BAUD_300,BAUD_1200,BAUD_2400) -- //
+	RS232_set_baudrate(BAUD_2400);
+	// -- initialize rs232 -- //
+	RS232_Init();
+	while (1 = 1) then
+	begin
+		// -- call read_byte (result is stored in RS232_RS232_BYTE_IN) -- //
+		RS232_read_byte();
+		// -- if a byte is read, output it to the screen -- //
+		// -- otherwise read the keyboard,send the byte to the rs232 channel and display on screen -- //
+		if (RS232_RS232_BYTE_IN <> 0) then
+		begin
+			call(CHROUT);
+		end else
+		begin
+			//RS232::read_keyboard();
+			RS232_read_keyboard();
+			call(CHROUT);
+		end;
+	end;
+	Loop(); 
+end.
+ 
