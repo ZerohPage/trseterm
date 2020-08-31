@@ -5,7 +5,7 @@
 	.byte   $32,$30,$36,$34
 	.byte    $29, $00, $00, $00
 	; Ending memory block
-EndBlock466
+EndBlock482
 	org $810
 	; Starting new memory block at $810
 C64Project
@@ -100,7 +100,7 @@ RS232_Init
 	sta $fa
 	; ****** Inline assembler section
 		
-    	lda #3                      ; logical file #
+    	lda #3                      ; logical file number
     	ldx #2                      ; 2 = rs-232 device
     	ldy #0                      ; no extra command
     	jsr SETLFS
@@ -108,9 +108,8 @@ RS232_Init
 	
 ; // -- setup a logical file descriptor, pointing to device 2(user port) -- 
 ; //
-; // -- open the open the logical file -- 
+; // -- open the logical file -- 
 ; //
-; //asm(" jsr OPEN");
 	jsr $ffc0
 	rts
 	
@@ -294,4 +293,4 @@ MainProgram_elsedoneblock20
 EndSymbol
 	; End of program
 	; Ending memory block
-EndBlock468
+EndBlock484
