@@ -28,7 +28,7 @@ RS232_set_baudrate(BAUD_2400);
 
 RS232_Init();
   
-**Read A byte :**
+**Read a byte :**
 
 
 
