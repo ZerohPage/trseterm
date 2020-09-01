@@ -14,7 +14,7 @@ begin
 	RS232_set_baudrate(BAUD_2400);
 	// -- initialize rs232 -- //
 	RS232_Init();
-	while (1 = 1) then
+	while (true) do 
 	begin
 		// -- call read_byte (result is stored in RS232_RS232_BYTE_IN) -- //
 		RS232_read_byte();

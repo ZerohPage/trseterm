@@ -1,5 +1,5 @@
 ; labels
-al  $810 .EndBlock482
+al  $810 .EndBlock9
 al  $813 .RS232_RS232_BYTE_IN
 al  $814 .RS232_KEYBOARD_BYTE_IN
 al  $815 .RS232_RS232_input_buffer

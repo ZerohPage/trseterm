@@ -5,7 +5,7 @@
 	.byte   $32,$30,$36,$34
 	.byte    $29, $00, $00, $00
 	; Ending memory block
-EndBlock482
+EndBlock9
 	org $810
 	; Starting new memory block at $810
 C64Project
@@ -258,11 +258,11 @@ MainProgram_clearloop14
 ; //
 	jsr RS232_Init
 MainProgram_while17
-	; Binary clause Simplified: EQUALS
+	; Binary clause Simplified: NOTEQUALS
 	lda #$1
 	; Compare with pure num / var optimization
-	cmp #$1;keep
-	bne MainProgram_elsedoneblock20
+	cmp #$0;keep
+	beq MainProgram_elsedoneblock20
 MainProgram_ConditionalTrueBlock18: ;Main true block ;keep 
 	
 ; // -- call read_byte(result is stored in RS232_RS232_BYTE_IN) -- 
@@ -293,4 +293,4 @@ MainProgram_elsedoneblock20
 EndSymbol
 	; End of program
 	; Ending memory block
-EndBlock484
+EndBlock11
