@@ -6,9 +6,9 @@ RS232 implementation for the c64 in TRSE
 https://lemonspawn.com/turbo-rascal-syntax-error-expected-but-begin/
 
 
-RS232 implementation unit is RS232.tru
+RS232 implementation unit is **RS232.tru**
 
-Demo program is main.ras
+Demo program is **main.ras**
 
 **Usage**
 
