@@ -48,3 +48,6 @@ RS232_write_byte(); ( This writes the contents of the accumulator using the CHRO
 
 ![Alt text](Capture.PNG?raw=true "VICE setup")
 
+
+bbs sites : https://www.telnetbbsguide.com/?s=c64
+
