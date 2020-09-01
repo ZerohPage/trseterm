@@ -5,7 +5,7 @@
 	.byte   $32,$30,$36,$34
 	.byte    $29, $00, $00, $00
 	; Ending memory block
-EndBlock105
+EndBlock190
 	org $810
 	; Starting new memory block at $810
 C64Project
@@ -304,4 +304,4 @@ MainProgram_elsedoneblock20
 EndSymbol
 	; End of program
 	; Ending memory block
-EndBlock107
+EndBlock192
