@@ -30,10 +30,20 @@ RS232_Init();
   
 **Read A byte :**
 
+
+
+
+
 // -- call read_byte (result is stored in RS232_RS232_BYTE_IN) -- //
 
 RS232_read_byte();
 
 **Write a byte**
 RS232_write_byte(); ( This writes the contents of the accumulator using the CHROUT kernal routine)
+
+
+
+
+
+![Alt text](capture.png?raw=true "VICE setup")
 
