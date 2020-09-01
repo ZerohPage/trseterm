@@ -1,6 +1,8 @@
 # TRSEterm
 RS232 implementation for the c64 in TRSE
 
+“Turbo Rascal Syntax error, “;” expected but “BEGIN” (Turbo Rascal SE, TRSE) is a complete suite (IDE, compiler, programming language, image sprite level resource editor) intended for developing games/demos for the 8 / 16-bit line of computers, with a focus on the MOS 6502, the Motorola 68000, the (GB)Z80 and the X86. TRSE currently supports application development for the C64, C128, VIC-20, PLUS4, NES, Gameboy, PET, ZX Spectrum, TIKI 100, Amstrad CPC 464, Atari 2600, 8086AT, Amiga 500 and the Atari ST 520 (complete list here). With the benefits of a modern IDE (error messages, code completion, syntax highlighting etc) and a bunch of fast built-in tools, it has never been easier to program for your favorite obsolete system!
+
 https://lemonspawn.com/turbo-rascal-syntax-error-expected-but-begin/
 
 
