@@ -5,7 +5,7 @@
 	.byte   $32,$30,$36,$34
 	.byte    $29, $00, $00, $00
 	; Ending memory block
-EndBlock149
+EndBlock166
 	org $810
 	; Starting new memory block at $810
 RS232
@@ -16,11 +16,9 @@ RS232_RS232_input_buffer	dc.b
 	org RS232_RS232_input_buffer+256
 RS232_RS232_output_buffer	dc.b	 
 	org RS232_RS232_output_buffer+256
-	; ***********  Defining procedure : RS232_InitRS232
+	; ***********  Defining procedure : RS232_Init
 	;    Procedure type : User-defined procedure
-RS232_baud	dc.b	
-RS232_InitRS232_block2
-RS232_InitRS232
+RS232_Init
 	; Assigning memory location
 	; Assigning single variable : $f7
 	lda #<RS232_RS232_input_buffer
@@ -43,22 +41,19 @@ RS232_InitRS232
 	sta $fa
 	; ****** Inline assembler section
 		
-    	lda #3                      ; logical file #
+    	lda #3                      ; logical file number
     	ldx #2                      ; 2 = rs-232 device
     	ldy #0                      ; no extra command
     	jsr SETLFS
     	
-	; ****** Inline assembler section
- jsr OPEN
-	rts
 	
 ; // -- setup a logical file descriptor, pointing to device 2(user port) -- 
 ; //
-; // -- set the baudrate -- 
-; //	
-; //set_baudrate(baud);
-; // -- open the open the logical file -- 
+; // -- open the logical file -- 
 ; //
+	jsr $ffc0
+	rts
+	
 ; // -----------------------------------------------------------------------------
 ; //
 ; // set the baud rate
@@ -69,8 +64,6 @@ RS232_InitRS232
 RS232_b	dc.b	
 RS232_set_baudrate_block3
 RS232_set_baudrate
-	
-; //BAUDRATE := %00000110;
 	; Assigning memory location
 	; Assigning single variable : $293
 	lda RS232_b
@@ -158,8 +151,6 @@ RS232_read_keyboard
 	cmp #$0;keep
 	beq RS232_read_keyboard_elsedoneblock10
 RS232_read_keyboard_ConditionalTrueBlock8: ;Main true block ;keep 
-	
-; //call(CHROUT);
 	jsr RS232_write_byte
 RS232_read_keyboard_elsedoneblock10
 	rts
@@ -167,4 +158,4 @@ block1
 EndSymbol
 	; End of program
 	; Ending memory block
-EndBlock151
+EndBlock168

@@ -92,7 +92,7 @@ begin
 	asm("	sta RS232_KEYBOARD_BYTE_IN");
 	if (KEYBOARD_BYTE_IN <> 0) then
 	begin
-		write_byte();
+		RS232_write_byte();
 	end;
 end;
 

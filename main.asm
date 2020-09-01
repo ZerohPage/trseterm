@@ -5,7 +5,7 @@
 	.byte   $32,$30,$36,$34
 	.byte    $29, $00, $00, $00
 	; Ending memory block
-EndBlock9
+EndBlock195
 	org $810
 	; Starting new memory block at $810
 C64Project
@@ -217,6 +217,15 @@ block1
 	
 ; // -- clear the screen -- 
 ; //
+	; Assigning memory location
+	; Assigning single variable : $d020
+	lda #$0
+	; Calling storevariable
+	sta $d020
+	; Assigning memory location
+	; Assigning single variable : $d021
+	; Calling storevariable
+	sta $d021
 	; Clear screen with offset
 	lda #$20
 	ldx #$fa
@@ -282,10 +291,7 @@ MainProgram_ConditionalTrueBlock32: ;Main true block ;keep
 	jsr $ffd2
 	jmp MainProgram_elsedoneblock34
 MainProgram_elseblock33
-	
-; //RS232::read_keyboard();
 	jsr RS232_read_keyboard
-	jsr $ffd2
 MainProgram_elsedoneblock34
 	jmp MainProgram_while17
 MainProgram_elsedoneblock20
@@ -293,4 +299,4 @@ MainProgram_elsedoneblock20
 EndSymbol
 	; End of program
 	; Ending memory block
-EndBlock11
+EndBlock197
