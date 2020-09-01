@@ -1,4 +1,4 @@
-# trseterm
+# TRSEterm
 RS232 implementation for the c64 in TRSE
 
 https://lemonspawn.com/turbo-rascal-syntax-error-expected-but-begin/
