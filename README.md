@@ -39,11 +39,12 @@ RS232_Init();
 RS232_read_byte();
 
 **Write a byte**
+
 RS232_write_byte(); ( This writes the contents of the accumulator using the CHROUT kernal routine)
 
 
 
+**VICE settings for testing**
 
-
-![Alt text](capture.png?raw=true "VICE setup")
+![Alt text](Capture.PNG?raw=true "VICE setup")
 
