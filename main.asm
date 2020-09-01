@@ -5,7 +5,7 @@
 	.byte   $32,$30,$36,$34
 	.byte    $29, $00, $00, $00
 	; Ending memory block
-EndBlock195
+EndBlock105
 	org $810
 	; Starting new memory block at $810
 C64Project
@@ -226,6 +226,11 @@ block1
 	; Assigning single variable : $d021
 	; Calling storevariable
 	sta $d021
+	; Assigning memory location
+	; Assigning single variable : $d018
+	lda #$17
+	; Calling storevariable
+	sta $d018
 	; Clear screen with offset
 	lda #$20
 	ldx #$fa
@@ -299,4 +304,4 @@ MainProgram_elsedoneblock20
 EndSymbol
 	; End of program
 	; Ending memory block
-EndBlock197
+EndBlock107

@@ -1,5 +1,5 @@
 ; labels
-al  $810 .EndBlock195
+al  $810 .EndBlock105
 al  $813 .RS232_RS232_BYTE_IN
 al  $814 .RS232_KEYBOARD_BYTE_IN
 al  $815 .RS232_RS232_input_buffer
@@ -25,12 +25,12 @@ al  $ab2 .RS232_read_keyboard
 al  $abc .RS232_read_keyboard_ConditionalTrueBlock9
 al  $abf .RS232_read_keyboard_elsedoneblock11
 al  $ac0 .block1
-al  $acc .MainProgram_clearloop14
-al  $afe .MainProgram_while17
-al  $b04 .MainProgram_ConditionalTrueBlock18
-al  $b0e .MainProgram_ConditionalTrueBlock32
-al  $b14 .MainProgram_elseblock33
-al  $b17 .MainProgram_elsedoneblock34
-al  $b1a .MainProgram_elsedoneblock20
-al  $b1d .EndSymbol
+al  $ad1 .MainProgram_clearloop14
+al  $b03 .MainProgram_while17
+al  $b09 .MainProgram_ConditionalTrueBlock18
+al  $b13 .MainProgram_ConditionalTrueBlock32
+al  $b19 .MainProgram_elseblock33
+al  $b1c .MainProgram_elsedoneblock34
+al  $b1f .MainProgram_elsedoneblock20
+al  $b22 .EndSymbol
 ; breakpoints

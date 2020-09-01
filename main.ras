@@ -3,10 +3,12 @@ program C64Project;
 var
 	i : byte=0;
 	title : string = "TRSETERM VERSION 0.1";
+	const CASE_SELECT : address = 53272;
 begin
 	// -- clear the screen -- //
 	SCREEN_BG_COL := 0;
 	SCREEN_FG_COL := 0;
+	CASE_SELECT := 23;
 	ClearScreen($20, ^$0400);
 	// -- move to position x = 1 y = y in 1st bank $0400 (screen memory)
 	moveto(1,1,$04);
