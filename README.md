@@ -45,5 +45,5 @@ RS232_write_byte(); ( This writes the contents of the accumulator using the CHRO
 
 
 
-![Alt text](capture.png?raw=true "VICE setup")
+![Alt text](Capture.png?raw=true "VICE setup")
 
