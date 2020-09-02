@@ -32,11 +32,11 @@ var
 		begin
 			term_read_keyboard();
 		end;
-		if (inkey = 49) then RS232_set_baudrate(BAUD_2400)
+		if (inkey = KEY_1) then RS232_set_baudrate(BAUD_2400)
 		else 
-		if (inkey = 50) then RS232_set_baudrate(BAUD_1200)
+		if (inkey = KEY_2) then RS232_set_baudrate(BAUD_1200)
 		else
-		if (inkey = 51) then RS232_set_baudrate(BAUD_300)
+		if (inkey = KEY_3) then RS232_set_baudrate(BAUD_300)
 	end;
 	// -----------------------------------------------------------------------------//
 	// Setup the terminal

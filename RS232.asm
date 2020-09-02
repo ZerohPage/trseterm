@@ -5,7 +5,7 @@
 	.byte   $32,$30,$36,$34
 	.byte    $29, $00, $00, $00
 	; Ending memory block
-EndBlock113
+EndBlock169
 	org $810
 	; Starting new memory block at $810
 RS232
@@ -158,4 +158,4 @@ block1
 EndSymbol
 	; End of program
 	; Ending memory block
-EndBlock115
+EndBlock171
