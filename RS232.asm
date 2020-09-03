@@ -5,13 +5,14 @@
 	.byte   $32,$30,$36,$34
 	.byte    $29, $00, $00, $00
 	; Ending memory block
-EndBlock96
+EndBlock363
 	org $810
 	; Starting new memory block at $810
 RS232
 	jmp block1
 RS232_RS232_BYTE_IN	dc.b	
 RS232_KEYBOARD_BYTE_IN	dc.b	
+RS232_TEMP	dc.b	
 RS232_RS232_input_buffer	dc.b	 
 	org RS232_RS232_input_buffer+256
 RS232_RS232_output_buffer	dc.b	 
@@ -108,6 +109,8 @@ RS232_read_byte
 ; //
 	; ***********  Defining procedure : RS232_write_byte
 	;    Procedure type : User-defined procedure
+RS232_OUTBYTE	dc.b	
+RS232_write_byte_block5
 RS232_write_byte
 	; ****** Inline assembler section
 	ldx #$03
@@ -121,6 +124,8 @@ RS232_write_byte
 	jsr $ffc9
 	; ****** Inline assembler section
 	tya
+	; ****** Inline assembler section
+   lda RS232_OUTBYTE
 	
 ; // -- CHKOUT. Define file as default output.(Must call OPEN beforehands.) -- 
 ; // 
@@ -146,16 +151,9 @@ RS232_read_keyboard
 	jsr $ffe4
 	; ****** Inline assembler section
 	sta RS232_KEYBOARD_BYTE_IN
-	; Binary clause Simplified: NOTEQUALS
-	; Compare with pure num / var optimization
-	cmp #$0;keep
-	beq RS232_read_keyboard_elsedoneblock10
-RS232_read_keyboard_ConditionalTrueBlock8: ;Main true block ;keep 
-	jsr RS232_write_byte
-RS232_read_keyboard_elsedoneblock10
 	rts
 block1
 EndSymbol
 	; End of program
 	; Ending memory block
-EndBlock98
+EndBlock365

@@ -20,6 +20,7 @@ var
 		menu_line2 : string = "2. 1200 BAUD";
 		menu_line3 : string = "3. 300  BAUD";
 	begin
+		ClearScreen($20, ^$0400);
 		moveto(1,3,$04);
 		printstring(menu_line0,0,32);
 		moveto(1,5,$04);
@@ -46,7 +47,6 @@ var
 		// -- initialize rs232 -- //
 		RS232_Init();
 	end;
-	
 	// -----------------------------------------------------------------------------//
 	// non-rs232 keyboard read
 	// -----------------------------------------------------------------------------//
@@ -78,19 +78,23 @@ begin
 		RS232_read_byte();
 		// -- if a byte is read, output it to the screen -- //
 		// -- otherwise read the keyboard,send the byte to the rs232 channel and display on screen -- //
-		if (RS232_RS232_BYTE_IN <> 0) then
+		if (RS232_RS232_BYTE_IN <> 0) then call(RS232_CHROUT);
+		RS232_read_keyboard();
+		
+		if RS232_KEYBOARD_BYTE_IN <> 0 Then
 		begin
-			call(RS232_CHROUT);
-		end else
-		begin
-			RS232_read_keyboard();
-		end;
-		term_read_keyboard();
-		if (inkey = KEY_F1) then
-		begin
-			inc(SCREEN_BG_COL);	
-			ShowMenu();
-		end; 	
+			moveto(0,0,$04);
+			printdecimal(RS232_KEYBOARD_BYTE_IN,2);
+			if (RS232_KEYBOARD_BYTE_IN = 133) then
+			begin
+				inc(SCREEN_BG_COL);	
+				ShowMenu();
+			end else
+			begin 	
+				RS232_write_byte(RS232_KEYBOARD_BYTE_IN);
+			end;	
+			RS232_KEYBOARD_BYTE_IN := 0; // -- reset keyboard_byte_in variable for next read -- //
+		end;	
 	end;
 	Loop(); 
 end.

@@ -3,6 +3,7 @@ var
    	// -- variables to store results of rs232 and keyboard read -- //
 	RS232_BYTE_IN : byte;
 	KEYBOARD_BYTE_IN : byte;
+	TEMP : byte;
 	
 	// -- BAUD constants -- //
 	const BAUD_300 	: byte = %00000110;
@@ -74,12 +75,13 @@ end;
 // -----------------------------------------------------------------------------//
 // attempt to write a byte                                          
 // -----------------------------------------------------------------------------//
-Procedure write_byte();
+Procedure write_byte(OUTBYTE : byte);
 begin
 	asm("	ldx #$03");					// -- logical file 3 -- //
 	asm("	tay");                      // -- preserve the accumulator as it is changed by CHKOUT -- //
 	call(CHKOUT);                       // -- CHKOUT. Define file as default output. (Must call OPEN beforehands.) -- // 
 	asm("	tya"); 						// -- restore accumulator from Y -- //
+	asm("   lda RS232_OUTBYTE");
 	call(CHROUT);                       // -- CHROUT. Write byte to default output. (If not screen, must call OPEN and CHKOUT beforehands.) -- //
 	call(CLRCHN);						// -- CLRCHN. Close default input/output files (for serial bus, send UNTALK and/or UNLISTEN); restore default input/output to keyboard/screen. -- //
 end;
@@ -90,10 +92,6 @@ Procedure read_keyboard();
 begin
 	call(GETIN);
 	asm("	sta RS232_KEYBOARD_BYTE_IN");
-	if (KEYBOARD_BYTE_IN <> 0) then
-	begin
-		RS232_write_byte();
-	end;
 end;
 
 end.

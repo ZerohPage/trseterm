@@ -5,7 +5,7 @@
 	.byte   $32,$30,$36,$34
 	.byte    $29, $00, $00, $00
 	; Ending memory block
-EndBlock137
+EndBlock127
 	org $810
 	; Starting new memory block at $810
 C64Project
@@ -189,6 +189,8 @@ RS232_read_byte
 ; //
 	; ***********  Defining procedure : RS232_write_byte
 	;    Procedure type : User-defined procedure
+RS232_OUTBYTE	dc.b	
+RS232_write_byte_block6
 RS232_write_byte
 	; ****** Inline assembler section
 	ldx #$03
@@ -202,6 +204,8 @@ RS232_write_byte
 	jsr $ffc9
 	; ****** Inline assembler section
 	tya
+	; ****** Inline assembler section
+   lda RS232_OUTBYTE
 	
 ; // -- CHKOUT. Define file as default output.(Must call OPEN beforehands.) -- 
 ; // 
@@ -227,13 +231,6 @@ RS232_read_keyboard
 	jsr $ffe4
 	; ****** Inline assembler section
 	sta RS232_KEYBOARD_BYTE_IN
-	; Binary clause Simplified: NOTEQUALS
-	; Compare with pure num / var optimization
-	cmp #$0;keep
-	beq RS232_read_keyboard_elsedoneblock11
-RS232_read_keyboard_ConditionalTrueBlock9: ;Main true block ;keep 
-	jsr RS232_write_byte
-RS232_read_keyboard_elsedoneblock11
 	rts
 	; ***********  Defining procedure : ShowMenu
 	;    Procedure type : User-defined procedure
@@ -245,8 +242,18 @@ menu_line2		dc.b	"2. 1200 BAUD"
 	dc.b	0
 menu_line3		dc.b	"3. 300  BAUD"
 	dc.b	0
-ShowMenu_block14
+ShowMenu_block8
 ShowMenu
+	; Clear screen with offset
+	lda #$20
+	ldx #$fa
+ShowMenu_clearloop9
+	dex
+	sta $0000+$400,x
+	sta $00fa+$400,x
+	sta $01f4+$400,x
+	sta $02ee+$400,x
+	bne ShowMenu_clearloop9
 	; MoveTo optimization
 	lda #$79
 	sta screenmemory
@@ -299,56 +306,56 @@ ShowMenu
 	sty print_text+1
 	ldx #$c ; optimized, look out for bugs
 	jsr printstring
-ShowMenu_while23
+ShowMenu_while18
 	; Binary clause Simplified: EQUALS
 	lda inkey
 	; Compare with pure num / var optimization
 	cmp #$0;keep
-	bne ShowMenu_elsedoneblock26
-ShowMenu_ConditionalTrueBlock24: ;Main true block ;keep 
+	bne ShowMenu_elsedoneblock21
+ShowMenu_ConditionalTrueBlock19: ;Main true block ;keep 
 	jsr term_read_keyboard
-	jmp ShowMenu_while23
-ShowMenu_elsedoneblock26
+	jmp ShowMenu_while18
+ShowMenu_elsedoneblock21
 	; Binary clause Simplified: EQUALS
 	lda inkey
 	; Compare with pure num / var optimization
 	cmp #$31;keep
-	bne ShowMenu_elseblock31
-ShowMenu_ConditionalTrueBlock30: ;Main true block ;keep 
+	bne ShowMenu_elseblock26
+ShowMenu_ConditionalTrueBlock25: ;Main true block ;keep 
 	; Assigning single variable : RS232_baud
 	lda #$a
 	; Calling storevariable
 	sta RS232_baud
 	jsr RS232_set_baudrate
-	jmp ShowMenu_elsedoneblock32
-ShowMenu_elseblock31
+	jmp ShowMenu_elsedoneblock27
+ShowMenu_elseblock26
 	; Binary clause Simplified: EQUALS
 	lda inkey
 	; Compare with pure num / var optimization
 	cmp #$32;keep
-	bne ShowMenu_elseblock59
-ShowMenu_ConditionalTrueBlock58: ;Main true block ;keep 
+	bne ShowMenu_elseblock54
+ShowMenu_ConditionalTrueBlock53: ;Main true block ;keep 
 	; Assigning single variable : RS232_baud
 	lda #$8
 	; Calling storevariable
 	sta RS232_baud
 	jsr RS232_set_baudrate
-	jmp ShowMenu_elsedoneblock60
-ShowMenu_elseblock59
+	jmp ShowMenu_elsedoneblock55
+ShowMenu_elseblock54
 	; Binary clause Simplified: EQUALS
 	lda inkey
 	; Compare with pure num / var optimization
 	cmp #$33;keep
-	bne ShowMenu_elsedoneblock74
-ShowMenu_ConditionalTrueBlock72: ;Main true block ;keep 
+	bne ShowMenu_elsedoneblock69
+ShowMenu_ConditionalTrueBlock67: ;Main true block ;keep 
 	; Assigning single variable : RS232_baud
 	lda #$6
 	; Calling storevariable
 	sta RS232_baud
 	jsr RS232_set_baudrate
-ShowMenu_elsedoneblock74
-ShowMenu_elsedoneblock60
-ShowMenu_elsedoneblock32
+ShowMenu_elsedoneblock69
+ShowMenu_elsedoneblock55
+ShowMenu_elsedoneblock27
 	rts
 	
 ; // -----------------------------------------------------------------------------
@@ -398,13 +405,13 @@ block1
 	; Clear screen with offset
 	lda #$20
 	ldx #$fa
-MainProgram_clearloop79
+MainProgram_clearloop74
 	dex
 	sta $0000+$400,x
 	sta $00fa+$400,x
 	sta $01f4+$400,x
 	sta $02ee+$400,x
-	bne MainProgram_clearloop79
+	bne MainProgram_clearloop74
 	
 ; // -- move to position x = 1 y = y in 1st bank $0400(screen memory)
 	; MoveTo optimization
@@ -430,26 +437,26 @@ MainProgram_clearloop79
 	; Clear screen with offset
 	lda #$20
 	ldx #$fa
-MainProgram_clearloop82
+MainProgram_clearloop77
 	dex
 	sta $0000+$400,x
 	sta $00fa+$400,x
 	sta $01f4+$400,x
 	sta $02ee+$400,x
-	bne MainProgram_clearloop82
+	bne MainProgram_clearloop77
 	
 ; //moveto(0,0,$04);
 ; //printdecimal(inkey,1);          
 ; // -- debug stuff -- 
 ; //
 	jsr SetupTerminal
-MainProgram_while83
+MainProgram_while78
 	; Binary clause Simplified: NOTEQUALS
 	lda #$1
 	; Compare with pure num / var optimization
 	cmp #$0;keep
-	beq MainProgram_elsedoneblock86
-MainProgram_ConditionalTrueBlock84: ;Main true block ;keep 
+	beq MainProgram_elsedoneblock81
+MainProgram_ConditionalTrueBlock79: ;Main true block ;keep 
 	
 ; // -- call read_byte(result is stored in RS232_RS232_BYTE_IN) -- 
 ; //
@@ -458,32 +465,63 @@ MainProgram_ConditionalTrueBlock84: ;Main true block ;keep
 	lda RS232_RS232_BYTE_IN
 	; Compare with pure num / var optimization
 	cmp #$0;keep
-	beq MainProgram_elseblock107
-MainProgram_ConditionalTrueBlock106: ;Main true block ;keep 
+	beq MainProgram_elsedoneblock121
+MainProgram_ConditionalTrueBlock119: ;Main true block ;keep 
 	
 ; // -- if a byte is read, output it to the screen -- 
 ; //
 ; // -- otherwise read the keyboard,send the byte to the rs232 channel and display on screen -- 
 ; //
 	jsr $ffd2
-	jmp MainProgram_elsedoneblock108
-MainProgram_elseblock107
+MainProgram_elsedoneblock121
 	jsr RS232_read_keyboard
-MainProgram_elsedoneblock108
-	jsr term_read_keyboard
-	; Binary clause Simplified: EQUALS
-	lda inkey
+	; Binary clause Simplified: NOTEQUALS
+	lda RS232_KEYBOARD_BYTE_IN
 	; Compare with pure num / var optimization
-	cmp #$f1;keep
-	bne MainProgram_elsedoneblock116
-MainProgram_ConditionalTrueBlock114: ;Main true block ;keep 
+	cmp #$0;keep
+	beq MainProgram_elsedoneblock127
+MainProgram_ConditionalTrueBlock125: ;Main true block ;keep 
+	; MoveTo optimization
+	lda #$00
+	sta screenmemory
+	lda #$04
+	sta screenmemory+1
+	ldy #0
+	lda RS232_KEYBOARD_BYTE_IN
+	sta ipd_div_lo
+	sty ipd_div_hi
+	ldy #$2 ; optimized, look out for bugs
+MainProgram_printdecimal141
+	jsr init_printdecimal_div10 
+	ora #$30
+	sta (screenmemory),y
+	dey
+	bpl MainProgram_printdecimal141
+	; Binary clause Simplified: EQUALS
+	lda RS232_KEYBOARD_BYTE_IN
+	; Compare with pure num / var optimization
+	cmp #$85;keep
+	bne MainProgram_elseblock144
+MainProgram_ConditionalTrueBlock143: ;Main true block ;keep 
 	inc $d020
 	jsr ShowMenu
-MainProgram_elsedoneblock116
-	jmp MainProgram_while83
-MainProgram_elsedoneblock86
+	jmp MainProgram_elsedoneblock145
+MainProgram_elseblock144
+	; Assigning single variable : RS232_OUTBYTE
+	lda RS232_KEYBOARD_BYTE_IN
+	; Calling storevariable
+	sta RS232_OUTBYTE
+	jsr RS232_write_byte
+MainProgram_elsedoneblock145
+	; Assigning single variable : RS232_KEYBOARD_BYTE_IN
+	lda #$0
+	; Calling storevariable
+	sta RS232_KEYBOARD_BYTE_IN
+MainProgram_elsedoneblock127
+	jmp MainProgram_while78
+MainProgram_elsedoneblock81
 	jmp * ; loop like (?/%
 EndSymbol
 	; End of program
 	; Ending memory block
-EndBlock139
+EndBlock129
