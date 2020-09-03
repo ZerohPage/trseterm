@@ -5,7 +5,7 @@
 	.byte   $32,$30,$36,$34
 	.byte    $29, $00, $00, $00
 	; Ending memory block
-EndBlock190
+EndBlock137
 	org $810
 	; Starting new memory block at $810
 C64Project
@@ -24,6 +24,7 @@ inkey	dc.b	$00
 	;    Requires initialization : no
 	jmp initmoveto_moveto2
 screenmemory =  $fe
+colormemory =  $fc
 screen_x = $4C
 screen_y = $4E
 SetScreenPosition
@@ -124,7 +125,7 @@ RS232_Init
     	lda #3                      ; logical file number
     	ldx #2                      ; 2 = rs-232 device
     	ldy #0                      ; no extra command
-    	jsr SETLFS
+    	jsr RS232_SETLFS
     	
 	
 ; // -- setup a logical file descriptor, pointing to device 2(user port) -- 
@@ -141,12 +142,12 @@ RS232_Init
 ; //
 	; ***********  Defining procedure : RS232_set_baudrate
 	;    Procedure type : User-defined procedure
-RS232_b	dc.b	
+RS232_baud	dc.b	
 RS232_set_baudrate_block4
 RS232_set_baudrate
 	; Assigning memory location
 	; Assigning single variable : $293
-	lda RS232_b
+	lda RS232_baud
 	; Calling storevariable
 	sta $293
 	rts
@@ -314,10 +315,10 @@ ShowMenu_elsedoneblock26
 	cmp #$31;keep
 	bne ShowMenu_elseblock31
 ShowMenu_ConditionalTrueBlock30: ;Main true block ;keep 
-	; Assigning single variable : RS232_b
+	; Assigning single variable : RS232_baud
 	lda #$a
 	; Calling storevariable
-	sta RS232_b
+	sta RS232_baud
 	jsr RS232_set_baudrate
 	jmp ShowMenu_elsedoneblock32
 ShowMenu_elseblock31
@@ -327,10 +328,10 @@ ShowMenu_elseblock31
 	cmp #$32;keep
 	bne ShowMenu_elseblock59
 ShowMenu_ConditionalTrueBlock58: ;Main true block ;keep 
-	; Assigning single variable : RS232_b
+	; Assigning single variable : RS232_baud
 	lda #$8
 	; Calling storevariable
-	sta RS232_b
+	sta RS232_baud
 	jsr RS232_set_baudrate
 	jmp ShowMenu_elsedoneblock60
 ShowMenu_elseblock59
@@ -340,10 +341,10 @@ ShowMenu_elseblock59
 	cmp #$33;keep
 	bne ShowMenu_elsedoneblock74
 ShowMenu_ConditionalTrueBlock72: ;Main true block ;keep 
-	; Assigning single variable : RS232_b
+	; Assigning single variable : RS232_baud
 	lda #$6
 	; Calling storevariable
-	sta RS232_b
+	sta RS232_baud
 	jsr RS232_set_baudrate
 ShowMenu_elsedoneblock74
 ShowMenu_elsedoneblock60
@@ -457,22 +458,32 @@ MainProgram_ConditionalTrueBlock84: ;Main true block ;keep
 	lda RS232_RS232_BYTE_IN
 	; Compare with pure num / var optimization
 	cmp #$0;keep
-	beq MainProgram_elseblock99
-MainProgram_ConditionalTrueBlock98: ;Main true block ;keep 
+	beq MainProgram_elseblock107
+MainProgram_ConditionalTrueBlock106: ;Main true block ;keep 
 	
 ; // -- if a byte is read, output it to the screen -- 
 ; //
 ; // -- otherwise read the keyboard,send the byte to the rs232 channel and display on screen -- 
 ; //
 	jsr $ffd2
-	jmp MainProgram_elsedoneblock100
-MainProgram_elseblock99
+	jmp MainProgram_elsedoneblock108
+MainProgram_elseblock107
 	jsr RS232_read_keyboard
-MainProgram_elsedoneblock100
+MainProgram_elsedoneblock108
+	jsr term_read_keyboard
+	; Binary clause Simplified: EQUALS
+	lda inkey
+	; Compare with pure num / var optimization
+	cmp #$f1;keep
+	bne MainProgram_elsedoneblock116
+MainProgram_ConditionalTrueBlock114: ;Main true block ;keep 
+	inc $d020
+	jsr ShowMenu
+MainProgram_elsedoneblock116
 	jmp MainProgram_while83
 MainProgram_elsedoneblock86
 	jmp * ; loop like (?/%
 EndSymbol
 	; End of program
 	; Ending memory block
-EndBlock192
+EndBlock139

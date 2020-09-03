@@ -31,7 +31,7 @@ var
 	RS232_output_buffer : array[256] of byte;
 	
 	// -- forward declarations -- //
-	procedure set_baudrate(b : byte);
+	procedure set_baudrate(baud : byte);
 
 // -----------------------------------------------------------------------------//
 // initialize the rs232 port and set up the buffers (for use later)
@@ -48,7 +48,7 @@ begin
     	lda #3                      ; logical file number
     	ldx #2                      ; 2 = rs-232 device
     	ldy #0                      ; no extra command
-    	jsr SETLFS
+    	jsr RS232_SETLFS
     	");
     // -- open the logical file -- //
 	Call(OPEN);
@@ -56,9 +56,9 @@ end;
 // -----------------------------------------------------------------------------//
 // set the baud rate
 // -----------------------------------------------------------------------------//
-procedure set_baudrate(b : byte) ;
+procedure set_baudrate(baud : byte) ;
 begin
-	BAUDRATE_ADDRESS := b;
+	BAUDRATE_ADDRESS := baud;
 end;
 // -----------------------------------------------------------------------------//
 // attempt to read a byte                                          

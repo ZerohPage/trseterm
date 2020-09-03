@@ -5,7 +5,7 @@
 	.byte   $32,$30,$36,$34
 	.byte    $29, $00, $00, $00
 	; Ending memory block
-EndBlock169
+EndBlock96
 	org $810
 	; Starting new memory block at $810
 RS232
@@ -44,7 +44,7 @@ RS232_Init
     	lda #3                      ; logical file number
     	ldx #2                      ; 2 = rs-232 device
     	ldy #0                      ; no extra command
-    	jsr SETLFS
+    	jsr RS232_SETLFS
     	
 	
 ; // -- setup a logical file descriptor, pointing to device 2(user port) -- 
@@ -61,12 +61,12 @@ RS232_Init
 ; //
 	; ***********  Defining procedure : RS232_set_baudrate
 	;    Procedure type : User-defined procedure
-RS232_b	dc.b	
+RS232_baud	dc.b	
 RS232_set_baudrate_block3
 RS232_set_baudrate
 	; Assigning memory location
 	; Assigning single variable : $293
-	lda RS232_b
+	lda RS232_baud
 	; Calling storevariable
 	sta $293
 	rts
@@ -158,4 +158,4 @@ block1
 EndSymbol
 	; End of program
 	; Ending memory block
-EndBlock171
+EndBlock98

@@ -35,3 +35,4 @@ ignore_initial_jump = 0
 current_file = RS232.asm
 output_type = prg
 exomizer_toggle = 0
+zeropage_colormemory = $fc

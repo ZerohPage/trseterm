@@ -32,11 +32,11 @@ var
 		begin
 			term_read_keyboard();
 		end;
-		if (inkey = KEY_1) then RS232_set_baudrate(BAUD_2400)
+		if (inkey = KEY_1) then RS232_set_baudrate(RS232_BAUD_2400)
 		else 
-		if (inkey = KEY_2) then RS232_set_baudrate(BAUD_1200)
+		if (inkey = KEY_2) then RS232_set_baudrate(RS232_BAUD_1200)
 		else
-		if (inkey = KEY_3) then RS232_set_baudrate(BAUD_300)
+		if (inkey = KEY_3) then RS232_set_baudrate(RS232_BAUD_300)
 	end;
 	// -----------------------------------------------------------------------------//
 	// Setup the terminal
@@ -52,7 +52,7 @@ var
 	// -----------------------------------------------------------------------------//
 	Procedure term_read_keyboard();
 	begin
-		call(GETIN);
+		call(RS232_GETIN);
 		asm("	sta inkey");
 	end;
 
@@ -80,11 +80,17 @@ begin
 		// -- otherwise read the keyboard,send the byte to the rs232 channel and display on screen -- //
 		if (RS232_RS232_BYTE_IN <> 0) then
 		begin
-			call(CHROUT);
+			call(RS232_CHROUT);
 		end else
 		begin
 			RS232_read_keyboard();
 		end;
+		term_read_keyboard();
+		if (inkey = KEY_F1) then
+		begin
+			inc(SCREEN_BG_COL);	
+			ShowMenu();
+		end; 	
 	end;
 	Loop(); 
 end.

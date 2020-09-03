@@ -23,7 +23,7 @@ al  $a70 .printstringloop
 al  $a7d .printstring_skip
 al  $a88 .printstring_done
 al  $a89 .RS232_Init
-al  $aa6 .RS232_b
+al  $aa6 .RS232_baud
 al  $aa7 .RS232_set_baudrate_block4
 al  $aae .RS232_read_byte
 al  $abd .RS232_write_byte
@@ -51,9 +51,11 @@ al  $bde .MainProgram_clearloop79
 al  $c0c .MainProgram_clearloop82
 al  $c1e .MainProgram_while83
 al  $c24 .MainProgram_ConditionalTrueBlock84
-al  $c2e .MainProgram_ConditionalTrueBlock98
-al  $c34 .MainProgram_elseblock99
-al  $c37 .MainProgram_elsedoneblock100
-al  $c3a .MainProgram_elsedoneblock86
-al  $c3d .EndSymbol
+al  $c2e .MainProgram_ConditionalTrueBlock106
+al  $c34 .MainProgram_elseblock107
+al  $c37 .MainProgram_elsedoneblock108
+al  $c41 .MainProgram_ConditionalTrueBlock114
+al  $c47 .MainProgram_elsedoneblock116
+al  $c4a .MainProgram_elsedoneblock86
+al  $c4d .EndSymbol
 ; breakpoints
