@@ -5,14 +5,13 @@
 	.byte   $32,$30,$36,$34
 	.byte    $29, $00, $00, $00
 	; Ending memory block
-EndBlock363
+EndBlock705
 	org $810
 	; Starting new memory block at $810
 RS232
 	jmp block1
 RS232_RS232_BYTE_IN	dc.b	
 RS232_KEYBOARD_BYTE_IN	dc.b	
-RS232_TEMP	dc.b	
 RS232_RS232_input_buffer	dc.b	 
 	org RS232_RS232_input_buffer+256
 RS232_RS232_output_buffer	dc.b	 
@@ -48,8 +47,6 @@ RS232_Init
     	jsr RS232_SETLFS
     	
 	
-; // -- setup a logical file descriptor, pointing to device 2(user port) -- 
-; //
 ; // -- open the logical file -- 
 ; //
 	jsr $ffc0
@@ -70,6 +67,19 @@ RS232_set_baudrate
 	lda RS232_baud
 	; Calling storevariable
 	sta $293
+	; ****** Inline assembler section
+		
+    	lda #3                      ; logical file number
+    	ldx #2                      ; 2 = rs-232 device
+    	ldy #0                      ; no extra command
+    	jsr RS232_SETLFS
+    	
+	
+; // -- setup a logical file descriptor, pointing to device 2(user port) -- 
+; //
+; // -- close the logical file(in case its already open) -- 
+; //
+	jsr $ffc3
 	rts
 	
 ; // -----------------------------------------------------------------------------
@@ -156,4 +166,4 @@ block1
 EndSymbol
 	; End of program
 	; Ending memory block
-EndBlock365
+EndBlock707

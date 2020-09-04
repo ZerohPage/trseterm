@@ -3,7 +3,6 @@ var
    	// -- variables to store results of rs232 and keyboard read -- //
 	RS232_BYTE_IN : byte;
 	KEYBOARD_BYTE_IN : byte;
-	TEMP : byte;
 	
 	// -- BAUD constants -- //
 	const BAUD_300 	: byte = %00000110;
@@ -16,6 +15,7 @@ var
 	const CHKOUT : address = $FFC9;
 	const SETLFS : address = $FFBA;
 	const OPEN   : address = $FFC0;
+	const CLOSE  : address = $FFC3;
 	const SETNAM : address = $FFBD;
 	const CHROUT : address = $FFD2;
 	const CLRCHN : address = $FFCC;
@@ -43,15 +43,16 @@ begin
 	RS232_INBUF_PTR_HI := hi(RS232_input_buffer);
 	RS232_OUTBUF_PTR_LO := lo(RS232_output_buffer);
 	RS232_OUTBUF_PTR_HI := hi(RS232_output_buffer);
-	// -- setup a logical file descriptor, pointing to device 2 (user port) -- //
-	asm("
+
+	// -- open the logical file -- //
+    asm("
 		
     	lda #3                      ; logical file number
     	ldx #2                      ; 2 = rs-232 device
     	ldy #0                      ; no extra command
     	jsr RS232_SETLFS
     	");
-    // -- open the logical file -- //
+    
 	Call(OPEN);
 end;
 // -----------------------------------------------------------------------------//
@@ -60,6 +61,17 @@ end;
 procedure set_baudrate(baud : byte) ;
 begin
 	BAUDRATE_ADDRESS := baud;
+	// -- setup a logical file descriptor, pointing to device 2 (user port) -- //
+	// -- close the logical file (in case its already open) -- //
+	asm("
+		
+    	lda #3                      ; logical file number
+    	ldx #2                      ; 2 = rs-232 device
+    	ldy #0                      ; no extra command
+    	jsr RS232_SETLFS
+    	");
+    
+	Call(CLOSE);	
 end;
 // -----------------------------------------------------------------------------//
 // attempt to read a byte                                          
