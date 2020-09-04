@@ -3,7 +3,7 @@ program C64Project;
 var
 	// vars -- //
 	i : byte=0;
-	title : string = "TRSETERM VERSION 0.1";
+	title : string = "TRSETERM VERSION 0.1 (MENU=F1)";
 	inkey : byte = 0;
 	// -- constants -- //
 	const CASE_SELECT : address = 53272;
@@ -23,6 +23,9 @@ var
 	begin
 		ClearScreen($20, ^$0400);
 		SCREEN_BG_COL := 06;
+		moveto(1,0,$04);
+		printstring(title,0,30);
+		
 		moveto(1,3,$04);
 		printstring(menu_line0,0,32);
 		moveto(1,5,$04);
