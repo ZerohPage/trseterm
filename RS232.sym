@@ -1,0 +1,15 @@
+; labels
+al  $810 .EndBlock705
+al  $813 .RS232_RS232_BYTE_IN
+al  $814 .RS232_KEYBOARD_BYTE_IN
+al  $815 .RS232_RS232_input_buffer
+al  $915 .RS232_RS232_output_buffer
+al  $a15 .RS232_Init
+al  $a32 .RS232_baud
+al  $a33 .RS232_set_baudrate_block3
+al  $a46 .RS232_read_byte
+al  $a55 .RS232_OUTBYTE
+al  $a56 .RS232_write_byte_block5
+al  $a67 .RS232_read_keyboard
+al  $a6e .block1
+; breakpoints

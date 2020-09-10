@@ -4,6 +4,15 @@ var
 	RS232_BYTE_IN : byte;
 	KEYBOARD_BYTE_IN : byte;
 	
+	TCallArguments = record
+		a : byte;
+		x : byte;
+		y : byte;
+		Addr : integer;
+	end;	
+	
+	
+
 	// -- BAUD constants -- //
 	const BAUD_300 	: byte = %00000110;
 	const BAUD_1200 : byte = %00001000;
@@ -28,22 +37,35 @@ var
 	const RS232_OUTBUF_PTR_HI : address = $fa;
 	
 	// -- buffers -- //
-	RS232_input_buffer : array[256] of byte;
-	RS232_output_buffer : array[256] of byte;
+	input_buffer : array[256] of byte;
+	output_buffer : array[256] of byte;
 	
 	// -- forward declarations -- //
 	procedure set_baudrate(baud : byte);
+	procedure CallRoutine(args : TCallArguments);
+	
+/*
+procedure CallRoutine(args : TCallArguments);
+begin
+	asm("	lda RS232_args_RS232_TCallArguments_RS232_TCallArguments_a
+			ldx RS232_args_RS232_TCallArguments_RS232_TCallArguments_x
+			ldy RS232_args_RS232_TCallArguments_RS232_TCallArguments_y
+			jsr RS232_args_RS232_TCallArguments_RS232_TCallArguments_Addr
+	");
+end;
+*/
 
 // -----------------------------------------------------------------------------//
 // initialize the rs232 port and set up the buffers (for use later)
 // -----------------------------------------------------------------------------//	
 procedure Init();
 begin
-	RS232_INBUF_PTR_LO := lo(RS232_input_buffer);
-	RS232_INBUF_PTR_HI := hi(RS232_input_buffer);
-	RS232_OUTBUF_PTR_LO := lo(RS232_output_buffer);
-	RS232_OUTBUF_PTR_HI := hi(RS232_output_buffer);
+	RS232_INBUF_PTR_LO := lo(#input_buffer);
+	RS232_INBUF_PTR_HI := hi(#input_buffer);
+	RS232_OUTBUF_PTR_LO := lo(#output_buffer);
+	RS232_OUTBUF_PTR_HI := hi(#output_buffer);
 
+	
 	// -- open the logical file -- //
     asm("
 		
@@ -54,6 +76,7 @@ begin
     	");
     
 	Call(OPEN);
+	
 end;
 // -----------------------------------------------------------------------------//
 // set the baud rate

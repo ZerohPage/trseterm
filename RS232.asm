@@ -5,38 +5,56 @@
 	.byte   $32,$30,$36,$34
 	.byte    $29, $00, $00, $00
 	; Ending memory block
-EndBlock705
+EndBlock21
 	org $810
 	; Starting new memory block at $810
 RS232
 	jmp block1
-RS232_RS232_BYTE_IN	dc.b	
-RS232_KEYBOARD_BYTE_IN	dc.b	
-RS232_RS232_input_buffer	dc.b	 
-	org RS232_RS232_input_buffer+256
-RS232_RS232_output_buffer	dc.b	 
-	org RS232_RS232_output_buffer+256
+RS232_RS232_BYTE_IN	dc.b	0
+RS232_KEYBOARD_BYTE_IN	dc.b	0
+RS232_input_buffer	dc.b	 
+	org RS232_input_buffer+256
+RS232_output_buffer	dc.b	 
+	org RS232_output_buffer+256
+	
+; //procedure CallRoutine(args : TCallArguments);
+; //begin
+; //	asm("	lda RS232_args_RS232_TCallArguments_RS232_TCallArguments_a
+; //			ldx RS232_args_RS232_TCallArguments_RS232_TCallArguments_x
+; //			ldy RS232_args_RS232_TCallArguments_RS232_TCallArguments_y
+; //			jsr RS232_args_RS232_TCallArguments_RS232_TCallArguments_Addr
+; //	");
+; //end;
+; //
+; // -----------------------------------------------------------------------------
+; //
+; // initialize the rs232 port and set up the buffers(for use later)
+; // -----------------------------------------------------------------------------
+; //	
+	; ***********  Defining procedure : RS232_CallRoutine
+	;    Procedure type : User-defined procedure
+	rts
 	; ***********  Defining procedure : RS232_Init
 	;    Procedure type : User-defined procedure
 RS232_Init
 	; Assigning memory location
 	; Assigning single variable : $f7
-	lda #<RS232_RS232_input_buffer
+	lda #<RS232_input_buffer
 	; Calling storevariable
 	sta $f7
 	; Assigning memory location
 	; Assigning single variable : $f8
-	lda #>RS232_RS232_input_buffer
+	lda #>RS232_input_buffer
 	; Calling storevariable
 	sta $f8
 	; Assigning memory location
 	; Assigning single variable : $f9
-	lda #<RS232_RS232_output_buffer
+	lda #<RS232_output_buffer
 	; Calling storevariable
 	sta $f9
 	; Assigning memory location
 	; Assigning single variable : $fa
-	lda #>RS232_RS232_output_buffer
+	lda #>RS232_output_buffer
 	; Calling storevariable
 	sta $fa
 	; ****** Inline assembler section
@@ -59,7 +77,7 @@ RS232_Init
 ; //
 	; ***********  Defining procedure : RS232_set_baudrate
 	;    Procedure type : User-defined procedure
-RS232_baud	dc.b	
+RS232_baud	dc.b	0
 RS232_set_baudrate_block3
 RS232_set_baudrate
 	; Assigning memory location
@@ -119,7 +137,7 @@ RS232_read_byte
 ; //
 	; ***********  Defining procedure : RS232_write_byte
 	;    Procedure type : User-defined procedure
-RS232_OUTBYTE	dc.b	
+RS232_OUTBYTE	dc.b	0
 RS232_write_byte_block5
 RS232_write_byte
 	; ****** Inline assembler section
@@ -166,4 +184,4 @@ block1
 EndSymbol
 	; End of program
 	; Ending memory block
-EndBlock707
+EndBlock23

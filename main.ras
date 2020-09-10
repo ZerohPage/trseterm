@@ -89,11 +89,11 @@ begin
 		// -- otherwise read the keyboard,send the byte to the rs232 channel and display on screen -- //
 		if (RS232_RS232_BYTE_IN <> 0) then call(RS232_CHROUT);
 		RS232_read_keyboard();
-		
 		if RS232_KEYBOARD_BYTE_IN <> 0 Then
 		begin
 			moveto(30,0,$04);
 			printdecimal(RS232_KEYBOARD_BYTE_IN,2);
+			// -- using the constant KEY_F1 doesnt seem to work here other key constants seem ok  -- //
 			if (RS232_KEYBOARD_BYTE_IN = 133) then
 			begin
 				ShowMenu();
